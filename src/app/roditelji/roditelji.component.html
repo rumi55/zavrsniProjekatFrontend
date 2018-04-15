@@ -1,0 +1,24 @@
+<h2>Roditelji</h2>
+
+<ul class="roditelji">
+
+ <div>
+   <h3>Pronadji roditelja</h3>
+   <label>jmbg:
+     <input [(ngModel)]="trazeni_jmbg" placeholder="jmbg">
+   </label>
+ </div>
+
+ <button (click)="search()">search</button>
+ <button (click)="goBack()">go back</button>
+
+ <div *ngIf="trazeni_roditelj">
+ <app-roditelj-detail [roditelj]="trazeni_roditelj"></app-roditelj-detail>
+
+ <div *ngIf="trazeni_roditelj.ucenici">
+    <div *ngFor="let u of trazeni_roditelj.ucenici">
+      <app-ucenici [trazeni_jmbg_]=u.jmbg></app-ucenici>
+    </div>
+ </div>
+
+</div>

@@ -1,0 +1,171 @@
+<h2>Administratori</h2>
+
+<ul class="administratori">
+
+ <div>
+   <h3>Pronadji administratora</h3>
+   <label>jmbg:
+     <input [(ngModel)]="trazeni_jmbg" placeholder="jmbg">
+   </label>
+ </div>
+
+ <button (click)="search()">search</button>
+ <button (click)="goBack()">go back</button>
+
+ <div *ngIf="trazeni_administrator">
+ <app-administrator-detail [administrator]="trazeni_administrator"></app-administrator-detail>
+
+
+<button (click)=otvoriDodavanje() class="btn btn-primary">Dodaj novog ucenika</button>
+
+<table class="table table-hover" >
+  <tr>
+      <th>ID</th>
+      <th>Ime</th>
+      <th>Prezime</th>
+      <th>JMBG</th>
+      <th>Telefon</th>
+      <th>Adresa</th>
+      <th></th>
+      <th></th>
+  </tr>
+  <tr *ngFor="let ucenik of this.ucenici">
+    <td>{{ucenik.id}}</td>
+    <td>{{ucenik.ime}}</td>
+    <td>{{ucenik.prezime}}</td>
+    <td>{{ucenik.jmbg}}</td>
+    <td>{{ucenik.telefon}}</td>
+    <td>{{ucenik.adresa}}</td>
+    <td><button (click)=otvori(ucenik.id) class="btn btn-primary">Izmeni</button></td>
+    <td><button (click)=brisiUcenika(ucenik.id) class="btn btn-danger">Izbrisi</button></td>
+  </tr>
+
+</table>
+
+
+
+</div>
+
+<div [ngStyle]="{'display':prikazi_dijalog}" class="modal" id="ucenikModal" tabindex="-1">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button class="close" data-dismiss="modal" (click)="zatvori()">&times;</button>
+       <h2 class="modal-title">Izmeni ucenika</h2>
+     </div>
+     <div class="modal-body">
+       <form (ngSubmit)="izmeniUcenika()">
+         <div class="form-group">
+           <label for="ime">Ime:</label>
+           <input [(ngModel)]="ucenik_izmena.ime" class="form-control"
+                  type="text" id="ime_polje" name="imePolje">
+         </div>
+         <div class="form-group">
+           <label for="prezime">Prezime:</label>
+           <input [(ngModel)]="ucenik_izmena.prezime" class="form-control"
+                  type="text" id="prezime_polje" name="prezimePolje">
+         </div>
+         <div class="form-group">
+           <label for="jmbg">JMBG:</label>
+           <input [(ngModel)]="ucenik_izmena.jmbg" class="form-control"
+                  type="text" id="jmbg_polje" name="jmbgPolje">
+         </div>
+         <div class="form-group">
+           <label for="adresa">Adresa:</label>
+           <input [(ngModel)]="ucenik_izmena.adresa" class="form-control"
+                  type="text" id="adresa_polje" name="adresaPolje">
+         </div>
+         <div class="form-group">
+           <label for="telefon">Telefon:</label>
+           <input [(ngModel)]="ucenik_izmena.telefon" class="form-control"
+                  type="text" id="telefon_polje" name="telefonPolje">
+         </div>
+       </form>
+     </div>
+     <div class="modal-footer">
+       <button id="dugmePosalji" class="btn btn-success" (click)="izmeniUcenika()">Posalji</button>
+       <button id="dugmeZatvori" class="btn btn-primary" data-dismiss="modal" (click)="zatvori()">Close</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+
+<div [ngStyle]="{'display':prikazi_dijalogDodavanje}" class="modal" id="ucenik2Modal" tabindex="-1">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button class="close" data-dismiss="modal" (click)="zatvoriDodaj()">&times;</button>
+       <h2 class="modal-title">Dodaj ucenika</h2>
+     </div>
+     <div class="modal-body">
+       <form (ngSubmit)="dodajUcenika()">
+         <h4>Podaci o uceniku</h4>
+         <div class="form-group">
+           <label for="ime">Ime:</label>
+           <input [(ngModel)]="ucenik_novi.ime" class="form-control"
+                  type="text" id="ime_polje" name="imePolje">
+         </div>
+         <div class="form-group">
+           <label for="prezime">Prezime:</label>
+           <input [(ngModel)]="ucenik_novi.prezime" class="form-control"
+                  type="text" id="prezime_polje" name="prezimePolje">
+         </div>
+         <div class="form-group">
+           <label for="jmbg">JMBG:</label>
+           <input [(ngModel)]="ucenik_novi.jmbg" class="form-control"
+                  type="text" id="jmbg_polje" name="jmbgPolje">
+         </div>
+         <div class="form-group">
+           <label for="adresa">Adresa:</label>
+           <input [(ngModel)]="ucenik_novi.adresa" class="form-control"
+                  type="text" id="adresa_polje" name="adresaPolje">
+         </div>
+         <div class="form-group">
+           <label for="telefon">Telefon:</label>
+           <input [(ngModel)]="ucenik_novi.telefon" class="form-control"
+                  type="text" id="telefon_polje" name="telefonPolje">
+         </div>
+         <div class="form-group">
+           <label for="razred">Razred:</label>
+           <input [(ngModel)]="ucenik_novi_razred" class="form-control"
+                  type="number" min="5" max="6" id="razred_polje" name="razredPolje">
+         </div>
+         <div class="form-group">
+           <label for="odeljenje">Odeljenje:</label>
+           <input [(ngModel)]="ucenik_novi_odeljenje" class="form-control"
+                  type="text" id="odeljenje_polje" name="odeljenjePolje">
+         </div>
+
+         <h4>Podaci o roditelju</h4>
+         <div class="form-group">
+           <label for="imeRoditelj">Ime:</label>
+           <input [(ngModel)]="ucenik_novi_roditelj.ime" class="form-control"
+                  type="text" id="imeRoditelj" name="imeRoditeljPolje">
+         </div>
+         <div class="form-group">
+           <label for="prezimeRoditelj">Prezime:</label>
+           <input [(ngModel)]="ucenik_novi_roditelj.prezime" class="form-control"
+                  type="text" id="prezimeRoditelj" name="prezimeRoditeljPolje">
+         </div>
+         <div class="form-group">
+           <label for="jmbgRoditelj">JMBG:</label>
+           <input [(ngModel)]="ucenik_novi_roditelj.jmbg" class="form-control"
+                  type="text" id="jmbgRoditelj" name="jmbgRoditeljPolje">
+         </div>
+         <div class="form-group">
+           <label for="emailRoditelj">Email:</label>
+           <input [(ngModel)]="ucenik_novi_roditelj.email" class="form-control"
+                  type="text" id="emailRoditelj" name="emailRoditeljPolje">
+         </div>
+
+       </form>
+     </div>
+     <div class="modal-footer">
+       <button id="dugmePosalji" class="btn btn-success" (click)="dodajUcenika()">Posalji</button>
+       <button id="dugmeZatvori" class="btn btn-primary" data-dismiss="modal" (click)="zatvoriDodaj()">Close</button>
+
+     </div>
+   </div>
+ </div>
+</div>

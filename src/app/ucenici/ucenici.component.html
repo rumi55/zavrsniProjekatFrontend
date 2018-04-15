@@ -1,0 +1,46 @@
+  <h2>Ucenici</h2>
+
+ <ul class="ucenici">
+
+
+   <div *ngIf="hideSearch=='no'">
+     <div>
+       <h3>Pronadji ucenika</h3>
+       <label>jmbg:
+         <input [(ngModel)]="trazeni_jmbg" placeholder="jmbg">
+       </label>
+     </div>
+
+     <button (click)="search()">search</button>
+     <button (click)="goBack()">go back</button>
+   </div>
+
+
+   <div *ngIf="trazeni_ucenik">
+   <app-ucenik-detail [ucenik]="trazeni_ucenik"></app-ucenik-detail>
+   <table border="1" class="table table-hover">
+    <tr>
+       <th id="naslov">Predmet</th>
+       <th>Ocene iz prvog</th>
+       <th id="zakljucna" >Zakljucna za prvi</th>
+       <th>Ocene iz drugog</th>
+       <th  id="zakljucna">Zakljucna za drugi</th>
+       </tr>
+   <tr *ngFor="let predmet of trazeni_ucenik.predmeti">
+     <td>{{predmet.naziv}}</td>
+     <td>
+        <span *ngFor="let oc of pred_ocena_mapa[predmet.id].ocenePrvo">
+            {{oc}}
+          </span>
+     </td>
+     <td>{{pred_ocena_mapa[predmet.id].zakljucnaPrvo}}</td>
+     <td>
+        <span *ngFor="let oc of pred_ocena_mapa[predmet.id].oceneDrugo">
+            {{oc}}
+          </span>
+     </td>
+     <td>{{pred_ocena_mapa[predmet.id].zakljucnaDrugo}}</td>
+   </tr>
+
+  </table>
+ </div>
